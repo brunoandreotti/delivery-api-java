@@ -26,5 +26,5 @@ public class Cozinha {
   private String nome;
 
   @OneToMany(mappedBy = "cozinha")
-  private List<Restaurante> restaurante;
+  private List<Restaurante> restaurantes;
 }

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,4 +24,8 @@ public class Cidade {
 
   @Column(nullable = false)
   private String nome;
+
+  @ManyToOne
+  @JoinColumn(name = "estado_id", nullable = false) // Coluna na tb_cidade que conterá o id da estado
+  private Estado estado;
 }
