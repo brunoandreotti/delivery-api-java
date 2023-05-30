@@ -1,30 +1,28 @@
 package com.brunoandreotti.deliveryapi.domain.models;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "tb_cozinha")
+@Table(name = "tb_permissao")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cozinha {
+public class Permissao {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @EqualsAndHashCode.Include
   private Long id;
 
-  @Column(length = 30, nullable = false)
+  @Column(nullable = false)
   private String nome;
 
-  @OneToMany(mappedBy = "cozinha")
-  private List<Restaurante> restaurante;
+  @Column(nullable = false)
+  private String descricao;
 }
