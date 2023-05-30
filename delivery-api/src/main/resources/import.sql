@@ -5,7 +5,6 @@ insert into tb_restaurante (nome, taxa_frete, cozinha_id) values ('Thai Gourmet'
 insert into tb_restaurante (nome, taxa_frete, cozinha_id) values ('Thai Delivery', 9.50, 1);
 insert into tb_restaurante (nome, taxa_frete, cozinha_id) values ('Chapa Comida Brasileira', 15, 2);
 
-insert into tb_restaurante (nome, taxa_frete, cozinha_id) values ('Chapa Comida Brasileira', 15, 2);
 
 insert into tb_forma_pagamento(descricao) values ('Crédito');
 insert into tb_forma_pagamento(descricao) values ('Debito');
