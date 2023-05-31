@@ -25,6 +25,6 @@ public class Cozinha {
   @Column(length = 30, nullable = false)
   private String nome;
 
-  @OneToMany(mappedBy = "cozinha")
-  private List<Restaurante> restaurantes;
+  // @OneToMany(mappedBy = "cozinha")
+  // private List<Restaurante> restaurantes;
 }
