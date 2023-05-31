@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,6 +26,7 @@ public class Cozinha {
   @Column(length = 30, nullable = false)
   private String nome;
 
+  // @JsonIgnore
   // @OneToMany(mappedBy = "cozinha")
   // private List<Restaurante> restaurantes;
 }
