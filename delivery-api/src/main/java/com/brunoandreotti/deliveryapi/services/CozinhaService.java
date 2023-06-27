@@ -66,5 +66,21 @@ public class CozinhaService {
     return new CozinhaResponseDTO(cozinhaRepository.save(cozinha.get()));
   }
 
+  public void deleteById(Long id) {
+    Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
+
+    if (cozinha.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          String.format("Cozinha com ID %s não existe", id));
+    }
+
+    try {
+      cozinhaRepository.delete(cozinha.get());
+    } catch (Exception e) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          String.format("Cozinha %s não pode ser excluída por fazer parte de uma constraint no banco de dados", cozinha.get().getNome()));
+    }
+  }
+
 
 }
