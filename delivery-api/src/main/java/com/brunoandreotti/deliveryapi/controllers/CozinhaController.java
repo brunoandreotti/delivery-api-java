@@ -6,12 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.brunoandreotti.deliveryapi.domain.dtos.cozinha.CozinhaRequestDTO;
 import com.brunoandreotti.deliveryapi.domain.dtos.cozinha.CozinhaResponseDTO;
-import com.brunoandreotti.deliveryapi.domain.models.Cozinha;
 import com.brunoandreotti.deliveryapi.services.CozinhaService;
 
 @RestController
@@ -39,8 +39,15 @@ public class CozinhaController {
 
   @PostMapping()
   public ResponseEntity<CozinhaResponseDTO> create(@RequestBody CozinhaRequestDTO cozinhaData) {
-    CozinhaResponseDTO cozinha = cozinhaService.create(cozinhaData);
 
-    return ResponseEntity.status(HttpStatus.CREATED).body(cozinha);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaService.create(cozinhaData));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<CozinhaResponseDTO> updateById(@PathVariable Long id,
+      @RequestBody CozinhaRequestDTO cozinhaData) {
+
+    return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.updateById(id, cozinhaData));
   }
 }

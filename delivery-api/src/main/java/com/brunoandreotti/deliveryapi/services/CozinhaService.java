@@ -35,21 +35,36 @@ public class CozinhaService {
     return new CozinhaResponseDTO(cozinha.get());
   }
 
-  public CozinhaResponseDTO create(CozinhaRequestDTO data) {
+  public CozinhaResponseDTO create(CozinhaRequestDTO cozinhaData) {
 
-    Boolean cozinhaAlreadyExists = cozinhaRepository.existsByNome(data.getNome());
+    Boolean cozinhaAlreadyExists = cozinhaRepository.existsByNome(cozinhaData.getNome());
 
     if (cozinhaAlreadyExists) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format("Cozinha %s já existe", data.getNome()));
+          String.format("Cozinha %s já existe", cozinhaData.getNome()));
     }
 
     Cozinha newCozinha = new Cozinha();
 
-    BeanUtils.copyProperties(data, newCozinha);
+    BeanUtils.copyProperties(cozinhaData, newCozinha);
 
     Cozinha newSavedCozinha = cozinhaRepository.save(newCozinha);
 
     return new CozinhaResponseDTO(newSavedCozinha);
   }
+
+  public CozinhaResponseDTO updateById(Long id, CozinhaRequestDTO cozinhaData) {
+    Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
+
+    if (cozinha.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+          String.format("Cozinha com ID %s não existe", id));
+    }
+
+    BeanUtils.copyProperties(cozinhaData, cozinha.get(), "id");
+
+    return new CozinhaResponseDTO(cozinhaRepository.save(cozinha.get()));
+  }
+
+
 }
