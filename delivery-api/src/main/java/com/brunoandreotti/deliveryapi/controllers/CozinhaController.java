@@ -1,34 +1,46 @@
 package com.brunoandreotti.deliveryapi.controllers;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.brunoandreotti.deliveryapi.domain.dtos.cozinha.CozinhaRequestDTO;
+import com.brunoandreotti.deliveryapi.domain.dtos.cozinha.CozinhaResponseDTO;
 import com.brunoandreotti.deliveryapi.domain.models.Cozinha;
-import com.brunoandreotti.deliveryapi.domain.repositories.CozinhaRepository;
+import com.brunoandreotti.deliveryapi.services.CozinhaService;
 
 @RestController
 @RequestMapping("/cozinhas")
 public class CozinhaController {
 
-  @Autowired
-  private CozinhaRepository cozinhaRepository;
+  private CozinhaService cozinhaService;
+
+  public CozinhaController(CozinhaService cozinhaService) {
+    this.cozinhaService = cozinhaService;
+  }
 
   @GetMapping
-  public ResponseEntity<List<Cozinha>> listAll() {
-    return ResponseEntity.status(HttpStatus.OK).body(cozinhaRepository.findAll());
+  public ResponseEntity<List<CozinhaResponseDTO>> listAll() {
+    return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.findAll());
 
 
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Cozinha> listById(@PathVariable Long id) {
-    return ResponseEntity.status(HttpStatus.OK).body(cozinhaRepository.findById(id).get());
+  public ResponseEntity<CozinhaResponseDTO> listById(@PathVariable Long id) {
+    return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.findById(id));
 
+  }
 
+  @PostMapping()
+  public ResponseEntity<CozinhaResponseDTO> create(@RequestBody CozinhaRequestDTO cozinhaData) {
+    CozinhaResponseDTO cozinha = cozinhaService.create(cozinhaData);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(cozinha);
   }
 }
