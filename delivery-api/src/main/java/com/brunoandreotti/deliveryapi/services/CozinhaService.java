@@ -3,13 +3,14 @@ package com.brunoandreotti.deliveryapi.services;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import com.brunoandreotti.deliveryapi.domain.dtos.cozinha.CozinhaRequestDTO;
 import com.brunoandreotti.deliveryapi.domain.dtos.cozinha.CozinhaResponseDTO;
 import com.brunoandreotti.deliveryapi.domain.models.Cozinha;
 import com.brunoandreotti.deliveryapi.domain.repositories.CozinhaRepository;
+import com.brunoandreotti.deliveryapi.exceptions.EntidadeComConstraintException;
+import com.brunoandreotti.deliveryapi.exceptions.EntidadeExistenteException;
+import com.brunoandreotti.deliveryapi.exceptions.EntidadeNaoEncontradaException;
 
 @Service
 public class CozinhaService {
@@ -20,6 +21,8 @@ public class CozinhaService {
     this.cozinhaRepository = cozinhaRepository;
   }
 
+  static final String NOT_FOUND_ERR = "Cozinha com ID %s não existe";
+
 
   public List<CozinhaResponseDTO> findAll() {
     return cozinhaRepository.findAll().stream().map(CozinhaResponseDTO::new).toList();
@@ -29,7 +32,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+      throw new EntidadeNaoEncontradaException(String.format(NOT_FOUND_ERR, id));
     }
 
     return new CozinhaResponseDTO(cozinha.get());
@@ -37,10 +40,10 @@ public class CozinhaService {
 
   public CozinhaResponseDTO create(CozinhaRequestDTO cozinhaData) {
 
-    Boolean cozinhaAlreadyExists = cozinhaRepository.existsByNome(cozinhaData.getNome());
+    boolean cozinhaAlreadyExists = cozinhaRepository.existsByNome(cozinhaData.getNome());
 
     if (cozinhaAlreadyExists) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+      throw new EntidadeExistenteException(
           String.format("Cozinha %s já existe", cozinhaData.getNome()));
     }
 
@@ -57,8 +60,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format("Cozinha com ID %s não existe", id));
+      throw new EntidadeNaoEncontradaException(String.format(NOT_FOUND_ERR, id));
     }
 
     BeanUtils.copyProperties(cozinhaData, cozinha.get(), "id");
@@ -70,15 +72,15 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format("Cozinha com ID %s não existe", id));
+      throw new EntidadeNaoEncontradaException(String.format(NOT_FOUND_ERR, id));
     }
 
     try {
       cozinhaRepository.delete(cozinha.get());
     } catch (Exception e) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-          String.format("Cozinha %s não pode ser excluída por fazer parte de uma constraint no banco de dados", cozinha.get().getNome()));
+      throw new EntidadeComConstraintException(String.format(
+          "Cozinha %s não pode ser excluída por fazer parte de uma constraint no banco de dados",
+          cozinha.get().getNome()));
     }
   }
 

@@ -25,7 +25,7 @@ public class CozinhaController {
     this.cozinhaService = cozinhaService;
   }
 
-  @GetMapping
+  @GetMapping()
   public ResponseEntity<List<CozinhaResponseDTO>> listAll() {
     return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.findAll());
 
@@ -53,7 +53,7 @@ public class CozinhaController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> deleteById(@PathVariable Long id) {
+  public ResponseEntity<CozinhaResponseDTO> deleteById(@PathVariable Long id) {
     cozinhaService.deleteById(id);
 
     return ResponseEntity.noContent().build();
