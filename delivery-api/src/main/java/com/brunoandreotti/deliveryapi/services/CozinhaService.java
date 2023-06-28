@@ -11,6 +11,7 @@ import com.brunoandreotti.deliveryapi.domain.repositories.CozinhaRepository;
 import com.brunoandreotti.deliveryapi.exceptions.EntidadeComConstraintException;
 import com.brunoandreotti.deliveryapi.exceptions.EntidadeExistenteException;
 import com.brunoandreotti.deliveryapi.exceptions.EntidadeNaoEncontradaException;
+import com.brunoandreotti.deliveryapi.utils.ConstantStrings;
 
 @Service
 public class CozinhaService {
@@ -21,7 +22,7 @@ public class CozinhaService {
     this.cozinhaRepository = cozinhaRepository;
   }
 
-  static final String NOT_FOUND_ERR = "Cozinha com ID %s não existe";
+  
 
 
   public List<CozinhaResponseDTO> findAll() {
@@ -32,7 +33,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(NOT_FOUND_ERR, id));
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ERR, id));
     }
 
     return new CozinhaResponseDTO(cozinha.get());
@@ -60,7 +61,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(NOT_FOUND_ERR, id));
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ERR, id));
     }
 
     BeanUtils.copyProperties(cozinhaData, cozinha.get(), "id");
@@ -72,7 +73,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(NOT_FOUND_ERR, id));
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ERR, id));
     }
 
     try {

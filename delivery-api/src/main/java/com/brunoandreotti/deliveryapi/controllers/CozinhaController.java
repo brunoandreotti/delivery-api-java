@@ -26,14 +26,14 @@ public class CozinhaController {
   }
 
   @GetMapping()
-  public ResponseEntity<List<CozinhaResponseDTO>> listAll() {
+  public ResponseEntity<List<CozinhaResponseDTO>> findAll() {
     return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.findAll());
 
 
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CozinhaResponseDTO> listById(@PathVariable Long id) {
+  public ResponseEntity<CozinhaResponseDTO> findById(@PathVariable Long id) {
     return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.findById(id));
 
   }
