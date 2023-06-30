@@ -5,5 +5,7 @@ import com.brunoandreotti.deliveryapi.domain.models.Cozinha;
 
 public interface CozinhaRepository extends JpaRepository<Cozinha, Long> {
 
-  Boolean existsByNome(String name);
+  boolean existsByNome(String name);
+  Cozinha findByNome(String nome);
+
 }

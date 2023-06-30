@@ -33,7 +33,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ERR, id));
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
     }
 
     return new CozinhaResponseDTO(cozinha.get());
@@ -45,7 +45,7 @@ public class CozinhaService {
 
     if (cozinhaAlreadyExists) {
       throw new EntidadeExistenteException(
-          String.format("Cozinha %s já existe", cozinhaData.getNome()));
+          String.format(ConstantStrings.EXISTING_ENTITY, cozinhaData.getNome()));
     }
 
     Cozinha newCozinha = new Cozinha();
@@ -61,7 +61,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ERR, id));
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
     }
 
     BeanUtils.copyProperties(cozinhaData, cozinha.get(), "id");
@@ -73,7 +73,7 @@ public class CozinhaService {
     Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 
     if (cozinha.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ERR, id));
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
     }
 
     try {

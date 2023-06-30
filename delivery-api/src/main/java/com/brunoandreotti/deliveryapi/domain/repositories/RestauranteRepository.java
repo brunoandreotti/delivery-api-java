@@ -6,4 +6,5 @@ import com.brunoandreotti.deliveryapi.domain.models.Restaurante;
 
 public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
 
+  boolean existsByNome(String nome);
 }
