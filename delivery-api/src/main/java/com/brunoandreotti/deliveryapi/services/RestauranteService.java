@@ -42,15 +42,15 @@ public class RestauranteService {
 
   public RestauranteResponseDTO create(RestauranteRequestDTO restaurante) {
 
-    validateRestaurante(restaurante);
+    validateCreateRestaurante(restaurante);
 
-    Cozinha cozinha = cozinhaRepository.findByNome(restaurante.getCozinha());
+    Optional<Cozinha> cozinha = cozinhaRepository.findByNome(restaurante.getCozinha());
 
     Restaurante newRestaurante = new Restaurante();
 
     BeanUtils.copyProperties(restaurante, newRestaurante);
 
-    newRestaurante.setCozinha(cozinha);
+    newRestaurante.setCozinha(cozinha.get());
 
     Restaurante savedRestaurante = restauranteRepository.save(newRestaurante);
 
@@ -58,7 +58,29 @@ public class RestauranteService {
 
   }
 
-  private void validateRestaurante(RestauranteRequestDTO restaurante) {
+  public RestauranteResponseDTO updateById(Long id, RestauranteRequestDTO restauranteData) {
+    Optional<Restaurante> restauranteExists = restauranteRepository.findById(id);
+    Optional<Cozinha> cozinhaExists = cozinhaRepository.findByNome(restauranteData.getCozinha());
+
+    if (restauranteExists.isEmpty()) {
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
+    }
+
+    if (cozinhaExists.isEmpty()) {
+      throw new EntidadeNaoEncontradaException(
+          String.format(ConstantStrings.NOT_FOUND_NAME_ERR, restauranteData.getCozinha()));
+    }
+
+    BeanUtils.copyProperties(restauranteData, restauranteExists.get(), "id, cozinha");
+
+    restauranteExists.get().setCozinha(cozinhaExists.get());
+
+    return new RestauranteResponseDTO(restauranteRepository.save(restauranteExists.get()));
+
+
+  }
+
+  private void validateCreateRestaurante(RestauranteRequestDTO restaurante) {
 
     boolean restauranteAlreadyExists = restauranteRepository.existsByNome(restaurante.getNome());
     boolean cozinhaAlreadyExists = cozinhaRepository.existsByNome(restaurante.getCozinha());
@@ -73,4 +95,6 @@ public class RestauranteService {
           String.format(ConstantStrings.NOT_FOUND_NAME_ERR, restaurante.getCozinha()));
     }
   }
+
+
 }
