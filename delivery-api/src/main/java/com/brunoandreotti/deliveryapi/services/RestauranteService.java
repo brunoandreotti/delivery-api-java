@@ -80,6 +80,17 @@ public class RestauranteService {
 
   }
 
+  public void deleteById(Long id) {
+    Optional<Restaurante> restauranteExists = restauranteRepository.findById(id);
+
+    if(restauranteExists.isEmpty()) {
+      throw new EntidadeNaoEncontradaException(
+          String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
+    }
+
+    restauranteRepository.deleteById(id);
+  }
+
   private void validateCreateRestaurante(RestauranteRequestDTO restaurante) {
 
     boolean restauranteAlreadyExists = restauranteRepository.existsByNome(restaurante.getNome());
@@ -95,6 +106,7 @@ public class RestauranteService {
           String.format(ConstantStrings.NOT_FOUND_NAME_ERR, restaurante.getCozinha()));
     }
   }
+  
 
 
 }
