@@ -44,13 +44,13 @@ public class RestauranteService {
 
     validateCreateRestaurante(restaurante);
 
-    Optional<Cozinha> cozinha = cozinhaRepository.findByNome(restaurante.getCozinha());
+    Cozinha cozinha = cozinhaRepository.findByNome(restaurante.getCozinha());
 
     Restaurante newRestaurante = new Restaurante();
 
     BeanUtils.copyProperties(restaurante, newRestaurante);
 
-    newRestaurante.setCozinha(cozinha.get());
+    newRestaurante.setCozinha(cozinha);
 
     Restaurante savedRestaurante = restauranteRepository.save(newRestaurante);
 
@@ -60,7 +60,7 @@ public class RestauranteService {
 
   public RestauranteResponseDTO updateById(Long id, RestauranteRequestDTO restauranteData) {
     Optional<Restaurante> restauranteExists = restauranteRepository.findById(id);
-    Optional<Cozinha> cozinhaExists = cozinhaRepository.findByNome(restauranteData.getCozinha());
+    Optional<Cozinha> cozinhaExists = cozinhaRepository.optionalFindByNome(restauranteData.getCozinha());
 
     if (restauranteExists.isEmpty()) {
       throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));

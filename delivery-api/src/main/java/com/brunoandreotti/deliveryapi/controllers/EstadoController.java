@@ -7,19 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.brunoandreotti.deliveryapi.domain.models.Estado;
-import com.brunoandreotti.deliveryapi.domain.repositories.EstadoRepository;
+import com.brunoandreotti.deliveryapi.domain.dtos.estado.EstadoResponseDTO;
+import com.brunoandreotti.deliveryapi.services.EstadoService;
 
 @RestController
 @RequestMapping("/estados")
 public class EstadoController {
 
   @Autowired
-  private EstadoRepository estadoRepository;
+  private EstadoService estadoService;
 
   @GetMapping
-  public ResponseEntity<List<Estado>> listAll() {
+  public ResponseEntity<List<EstadoResponseDTO>> findAll() {
 
-    return ResponseEntity.status(HttpStatus.OK).body(estadoRepository.findAll());
+    return ResponseEntity.status(HttpStatus.OK).body(estadoService.findAll());
   }
 }
