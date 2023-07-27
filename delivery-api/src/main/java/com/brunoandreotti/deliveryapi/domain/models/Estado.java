@@ -1,6 +1,7 @@
 package com.brunoandreotti.deliveryapi.domain.models;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,6 @@ public class Estado {
   private String nome;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "estado")
+  @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Cidade> cidades;
 }

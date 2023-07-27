@@ -76,4 +76,14 @@ public class EstadoService {
     return new EstadoResponseDTO(updatedEstado);
   }
 
+  public void deleteById(Long id) {
+    Optional<Estado> estado = estadoRepository.findById(id);
+
+    if (estado.isEmpty()) {
+      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
+    }
+
+    estadoRepository.delete(estado.get());
+  }
+
 }
