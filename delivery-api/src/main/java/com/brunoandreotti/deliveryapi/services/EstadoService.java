@@ -26,13 +26,12 @@ public class EstadoService {
   }
 
   public EstadoResponseDTO findById(Long id) {
-    Optional<Estado> estado = estadoRepository.findById(id);
 
-    if (estado.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
-    }
+    Estado estado =
+        estadoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException(
+            String.format(ConstantStrings.NOT_FOUND_ID_ERR, id)));
 
-    return new EstadoResponseDTO(estado.get());
+    return new EstadoResponseDTO(estado);
   }
 
   public EstadoResponseDTO create(EstadoRequestDTO estadoData) {

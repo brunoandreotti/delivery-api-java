@@ -5,4 +5,6 @@ import com.brunoandreotti.deliveryapi.domain.models.Cidade;
 
 public interface CidadeRepository extends JpaRepository<Cidade, Long> {
 
+  boolean existsByNome(String nome);
+
 }
