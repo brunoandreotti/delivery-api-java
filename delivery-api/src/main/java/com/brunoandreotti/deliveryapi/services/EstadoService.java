@@ -1,7 +1,6 @@
 package com.brunoandreotti.deliveryapi.services;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.brunoandreotti.deliveryapi.domain.dtos.estado.EstadoRequestDTO;
@@ -75,13 +74,12 @@ public class EstadoService {
   }
 
   public void deleteById(Long id) {
-    Optional<Estado> estado = estadoRepository.findById(id);
+    Estado estado =
+        estadoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException(
+            String.format(ConstantStrings.NOT_FOUND_ID_ERR, id)));
 
-    if (estado.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
-    }
 
-    estadoRepository.delete(estado.get());
+    estadoRepository.delete(estado);
   }
 
 }

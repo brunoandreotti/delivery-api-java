@@ -88,5 +88,14 @@ public class CidadeService {
     return new CidadeResponseDTO(updatedCidade);
   }
 
+  public void deleteById(Long id) {
+
+    Cidade cidade =
+        cidadeRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException(
+            String.format(ConstantStrings.NOT_FOUND_ID_ERR, id)));
+
+    cidadeRepository.delete(cidade);
+  }
+
 
 }
