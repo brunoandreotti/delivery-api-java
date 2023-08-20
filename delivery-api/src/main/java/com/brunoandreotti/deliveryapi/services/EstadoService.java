@@ -54,13 +54,12 @@ public class EstadoService {
 
   public EstadoResponseDTO updateById(Long id, EstadoRequestDTO estadoData) {
 
-    Optional<Estado> estadoById = estadoRepository.findById(id);
+    Estado estadoById =
+        estadoRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException(
+            String.format(ConstantStrings.NOT_FOUND_ID_ERR, id)));
+
     boolean estadoByNome = estadoRepository.existsByNome(estadoData.getNome());
 
-
-    if (estadoById.isEmpty()) {
-      throw new EntidadeNaoEncontradaException(String.format(ConstantStrings.NOT_FOUND_ID_ERR, id));
-    }
 
     if (estadoByNome) {
       throw new EntidadeExistenteException(
@@ -68,9 +67,9 @@ public class EstadoService {
     }
 
 
-    BeanUtils.copyProperties(estadoData, estadoById.get(), "id");
+    BeanUtils.copyProperties(estadoData, estadoById, "id");
 
-    Estado updatedEstado = estadoRepository.save(estadoById.get());
+    Estado updatedEstado = estadoRepository.save(estadoById);
 
     return new EstadoResponseDTO(updatedEstado);
   }

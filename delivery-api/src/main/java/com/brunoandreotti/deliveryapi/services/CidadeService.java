@@ -20,8 +20,9 @@ public class CidadeService {
 
   private EstadoRepository estadoRepository;
 
-  public CidadeService(CidadeRepository cidadeRepository) {
+  public CidadeService(CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
     this.cidadeRepository = cidadeRepository;
+    this.estadoRepository = estadoRepository;
   }
 
   public List<CidadeResponseDTO> findAll() {
@@ -58,6 +59,33 @@ public class CidadeService {
     Cidade savedCidade = cidadeRepository.save(newCidade);
 
     return new CidadeResponseDTO(savedCidade);
+  }
+
+  public CidadeResponseDTO updateById(Long id, CidadeRequestDTO cidadeData) {
+
+    Cidade cidadeById =
+        cidadeRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException(
+            String.format(ConstantStrings.NOT_FOUND_ID_ERR, id)));
+
+    boolean cidadeByNome = cidadeRepository.existsByNome(cidadeData.getNome());
+
+    if (cidadeByNome) {
+      throw new EntidadeExistenteException(
+          String.format(ConstantStrings.EXISTING_ENTITY, cidadeData.getNome()));
+    }
+
+    boolean estadoByNome = estadoRepository.existsByNome(cidadeData.getEstado());
+
+    if (!estadoByNome) {
+      throw new EntidadeNaoEncontradaException(
+          String.format(ConstantStrings.NOT_FOUND_NAME_ERR, cidadeData.getEstado()));
+    }
+
+    BeanUtils.copyProperties(cidadeData, cidadeById, "id");
+
+    Cidade updatedCidade = cidadeRepository.save(cidadeById);
+
+    return new CidadeResponseDTO(updatedCidade);
   }
 
 
