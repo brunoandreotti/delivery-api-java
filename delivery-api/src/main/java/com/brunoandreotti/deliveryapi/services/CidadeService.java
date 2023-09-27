@@ -16,9 +16,9 @@ import com.brunoandreotti.deliveryapi.utils.ConstantStrings;
 @Service
 public class CidadeService {
 
-  private CidadeRepository cidadeRepository;
+  private final CidadeRepository cidadeRepository;
 
-  private EstadoRepository estadoRepository;
+  private final EstadoRepository estadoRepository;
 
   public CidadeService(CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
     this.cidadeRepository = cidadeRepository;

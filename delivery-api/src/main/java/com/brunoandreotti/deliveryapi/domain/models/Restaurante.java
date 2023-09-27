@@ -1,14 +1,9 @@
 package com.brunoandreotti.deliveryapi.domain.models;
 
 import java.math.BigDecimal;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,5 +27,13 @@ public class Restaurante {
   @ManyToOne
   @JoinColumn(name = "cozinha_id", nullable = false) // Coluna na tb_restaurante que conterá o id da cozinha
   private Cozinha cozinha;
+
+  @ManyToMany
+  @JoinTable( // é na entidade principal que o relacionamento é configurado
+          name = "restaurante_forma_pagamento", //nome da tabela pivô
+          joinColumns = @JoinColumn(name = "restaurante_id"), //nome da coluna com id da entidade principal
+          inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id") //nome da coluna com o id da entidade secundária
+  )
+  private List<FormaPagamento> formasPagamento;
 
 }

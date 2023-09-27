@@ -23,8 +23,6 @@ public class RestauranteController {
   @Autowired
   private RestauranteService restauranteService;
 
-
-
   @GetMapping()
   public ResponseEntity<List<RestauranteResponseDTO>> findAll() {
     return ResponseEntity.status(HttpStatus.OK).body(restauranteService.findAll());
