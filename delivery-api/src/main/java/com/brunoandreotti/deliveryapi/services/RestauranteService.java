@@ -71,7 +71,7 @@ public class RestauranteService {
           String.format(ConstantStrings.NOT_FOUND_NAME_ERR, restauranteData.getCozinha()));
     }
 
-    BeanUtils.copyProperties(restauranteData, restauranteExists.get(), "id, cozinha");
+    BeanUtils.copyProperties(restauranteData, restauranteExists.get(), "id");
 
     restauranteExists.get().setCozinha(cozinhaExists.get());
 

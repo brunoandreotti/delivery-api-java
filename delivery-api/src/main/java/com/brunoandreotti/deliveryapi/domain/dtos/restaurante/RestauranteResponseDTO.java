@@ -1,6 +1,8 @@
 package com.brunoandreotti.deliveryapi.domain.dtos.restaurante;
 
 import java.math.BigDecimal;
+
+import com.brunoandreotti.deliveryapi.domain.models.Endereco;
 import com.brunoandreotti.deliveryapi.domain.models.Restaurante;
 import lombok.Data;
 
@@ -15,10 +17,13 @@ public class RestauranteResponseDTO {
 
   private String cozinha;
 
+  private Endereco endereco;
+
   public RestauranteResponseDTO(Restaurante restaurante) {
     this.id = restaurante.getId();
     this.nome = restaurante.getNome();
     this.taxaFrete = restaurante.getTaxaFrete();
     this.cozinha = restaurante.getCozinha().getNome();
+    this.endereco = restaurante.getEndereco();
   }
 }
