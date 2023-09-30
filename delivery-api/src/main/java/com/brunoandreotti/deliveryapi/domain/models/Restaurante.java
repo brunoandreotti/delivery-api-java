@@ -29,9 +29,11 @@ public class Restaurante {
   @Column(nullable = false)
   private BigDecimal taxaFrete;
 
+  @Column(nullable = false)
   @CreationTimestamp //adiciona a data de criação
   private LocalDateTime dataCadastro;
 
+  @Column(nullable = false)
   @UpdateTimestamp //adiciona a data da última atualização
   private LocalDateTime dataAtualizacao;
 
@@ -51,5 +53,8 @@ public class Restaurante {
           inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id") //nome da coluna com o id da entidade secundária
   )
   private List<FormaPagamento> formasPagamento;
+
+  @OneToMany(mappedBy = "restaurante")
+  private List<Produto> produtos;
 
 }
