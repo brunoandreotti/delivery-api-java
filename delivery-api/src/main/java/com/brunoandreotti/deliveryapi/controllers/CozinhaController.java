@@ -33,6 +33,7 @@ public class CozinhaController {
 
   @GetMapping("/{id}")
   public ResponseEntity<CozinhaResponseDTO> findById(@PathVariable Long id) {
+    System.out.println("teste");
     return ResponseEntity.status(HttpStatus.OK).body(cozinhaService.findById(id));
 
   }
