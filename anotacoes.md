@@ -56,3 +56,11 @@ A anotação @Bean sinaliza que o método instancia, configura e inicializa um n
 ### @Autowired
 
 A anotação @Autowired indica onde será o ponto de injeção da classe.
+
+### Eager Loading
+
+O JPA, ao instanciar um objeto buscando seus dados no banco, irá também buscar e carregar os dados de todos os relacionamentos que também possuem Eager Loading, por padrão, relacionamentos terminados com ToOne possuem esse comportamento
+
+### Lazy Loading
+
+O JPA apenas ira buscar e carregar os dados dos relacionamentos quando forem necessário, é uma busca e carregamento por demanda, por padrão quando o objeto por instanciado e buscado no banco de dados, a principio só os dados do próprio objeto será carregados sem os dados dos objetos relacionados. Por padrão os relacionamentos que terminam em ToMany possuem esse comportamento.
